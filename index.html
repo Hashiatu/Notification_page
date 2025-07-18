@@ -7,13 +7,34 @@
 </head>
 <body>
     <h1>Notification Page</h1>
+    <a href="todo.html">Go to Send Notification Page</a>
     <script>
         
-        function showNotification() {
-            document.createElement("p");
-            document.body.innerHTML = `
-                <p>.</p>
-            `;
+        function showNotification(message = "You have a new notification!") {
+            // Create notification container if it doesn't exist
+            let notifContainer = document.getElementById("notification-container");
+            if (!notifContainer) {
+                notifContainer = document.createElement("div");
+                notifContainer.id = "notification-container";
+                notifContainer.style.position = "fixed";
+                notifContainer.style.top = "20px";
+                notifContainer.style.right = "20px";
+                notifContainer.style.background = "#333";
+                notifContainer.style.color = "#fff";
+                notifContainer.style.padding = "16px 24px";
+                notifContainer.style.borderRadius = "8px";
+                notifContainer.style.boxShadow = "0 2px 8px rgba(0,0,0,0.2)";
+                notifContainer.style.zIndex = "1000";
+                notifContainer.style.fontFamily = "sans-serif";
+                document.body.appendChild(notifContainer);
+            }
+            notifContainer.textContent = message;
+            notifContainer.style.display = "block";
+
+            // Hide after 3 seconds
+            setTimeout(() => {
+                notifContainer.style.display = "none";
+            }, 3000);
         }
 
     
