@@ -8,20 +8,55 @@
 
 </head>
 <body>
-    
-    
-    
-        
     <div class="main">
-        <div  class="SEND">
-                    <h1> Send A Notification</h1>
-            <input type="text"placeholder="Enter your message" id="input">
+        <div class="SEND">
+            <h1>Send A Notification</h1>
+            <input type="text" placeholder="Enter your message" id="input">
             <button id="button" onclick="sendMessage()">SEND</button>
-            <button id="status" onclick="">status</button>
+            <button id="status" onclick="toggleDropdown()">status</button>
         </div>
-        
-        <div>
-          <script src="script.js"></script>
+        <div id="dropdown" style="display:none; position:absolute; background:#fff; border:1px solid #ccc; margin-top:10px; min-width:200px; z-index:1000;">
+            <div id="statusBar" style="padding:10px; color: #333;"></div>
+        </div>
+    </div>
+    <script>
+        let messages = [];
 
+        function sendMessage() {
+            const input = document.getElementById('input');
+            const message = input.value.trim();
+            if (message) {
+                messages.unshift(message);
+                if (messages.length > 10) messages.pop(); // Keep only last 10 messages
+            }
+            input.value = "";
+        }
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            const statusBar = document.getElementById('statusBar');
+            if (dropdown.style.display === "none") {
+                if (messages.length) {
+                    statusBar.innerHTML = "<strong>Recent messages:</strong><ul style='margin:8px 0 0 0; padding-left:18px;'>" +
+                        messages.map(msg => `<li>${msg}</li>`).join('') +
+                        "</ul>";
+                } else {
+                    statusBar.textContent = "No message sent yet.";
+                }
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        }
+
+        // Optional: Hide dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('dropdown');
+            const statusBtn = document.getElementById('status');
+            if (!dropdown.contains(event.target) && event.target !== statusBtn) {
+                dropdown.style.display = "none";
+            }
+        });
+    </script>
 </body>
 </html>
